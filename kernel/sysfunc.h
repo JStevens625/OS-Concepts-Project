@@ -24,4 +24,7 @@ int sys_wait(void);
 int sys_write(void);
 int sys_uptime(void);
 
+//Custom System Count Code
+int sys_howmanysys(void);
+
 #endif // _SYSFUNC_H_
