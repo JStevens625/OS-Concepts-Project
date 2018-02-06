@@ -60,7 +60,7 @@ sys_sleep(void)
 {
   int n;
   uint ticks0;
-  
+
   if(argint(0, &n) < 0)
     return -1;
   acquire(&tickslock);
@@ -76,13 +76,23 @@ sys_sleep(void)
   return 0;
 }
 
+//Custom System Count Code
+int
+sys_howmanysys(void)
+{
+  int counter = 0;
+  printf("There has been %d\n", );
+}
+//Custom System Count Code end.
+
+
 // return how many clock tick interrupts have occurred
 // since boot.
 int
 sys_uptime(void)
 {
   uint xticks;
-  
+
   acquire(&tickslock);
   xticks = ticks;
   release(&tickslock);
