@@ -26,6 +26,9 @@ char* sbrk(int);
 int sleep(int);
 int uptime(void);
 
+//Custom System Count Code
+int howmanysys(void);
+
 // user library functions (ulib.c)
 int stat(char*, struct stat*);
 char* strcpy(char*, char*);
@@ -41,4 +44,3 @@ void free(void*);
 int atoi(const char*);
 
 #endif // _USER_H_
-

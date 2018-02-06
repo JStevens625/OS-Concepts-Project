@@ -29,3 +29,6 @@ SYSCALL(getpid)
 SYSCALL(sbrk)
 SYSCALL(sleep)
 SYSCALL(uptime)
+
+//Custom System Count Code
+SYSCALL(howmanysys)
