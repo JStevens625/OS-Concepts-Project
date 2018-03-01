@@ -85,7 +85,7 @@ int sys_howmanysys(void) {
 
 //Set number of tickets
 int sys_settickets(void){
-
+  
 }
 
 //Get process get process info

@@ -29,7 +29,7 @@ int sys_howmanysys(void);
 extern int counter;
 
 //Lottery Tickets
-int sys_settickets(void)
-int sys_getpinfo(void)
+int sys_settickets(void);
+int sys_getpinfo(void);
 
 #endif // _SYSFUNC_H_

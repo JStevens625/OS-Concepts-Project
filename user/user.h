@@ -30,8 +30,8 @@ int uptime(void);
 int howmanysys(void);
 
 //Lottery Tickets
-int settickets(int num)
-int getpinfo(struct pstat *)
+int settickets(int num);
+int getpinfo(struct pstat *);
 
 
 // user library functions (ulib.c)
