@@ -26,6 +26,17 @@ char* sbrk(int);
 int sleep(int);
 int uptime(void);
 
+<<<<<<< HEAD
+=======
+//Custom System Count Code
+int howmanysys(void);
+
+//Lottery Tickets
+int settickets(int num)
+int getpinfo(struct pstat *)
+
+
+>>>>>>> ea8985a... Implemented 2 new system calls into XV6 named settickets and getpinfo.
 // user library functions (ulib.c)
 int stat(char*, struct stat*);
 char* strcpy(char*, char*);

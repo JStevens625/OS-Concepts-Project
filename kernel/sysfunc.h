@@ -24,4 +24,15 @@ int sys_wait(void);
 int sys_write(void);
 int sys_uptime(void);
 
+<<<<<<< HEAD
+=======
+//Custom Code for How many system calls
+int sys_howmanysys(void);
+extern int counter;
+
+//Lottery Tickets
+int sys_settickets(void)
+int sys_getpinfo(void)
+
+>>>>>>> ea8985a... Implemented 2 new system calls into XV6 named settickets and getpinfo.
 #endif // _SYSFUNC_H_

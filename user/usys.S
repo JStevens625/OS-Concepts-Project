@@ -29,3 +29,13 @@ SYSCALL(getpid)
 SYSCALL(sbrk)
 SYSCALL(sleep)
 SYSCALL(uptime)
+<<<<<<< HEAD
+=======
+
+//Custom System Count Code
+SYSCALL(howmanysys)
+
+//Lottery Tickets
+SYSCALL(settickets)
+SYSCALL(getpinfo)
+>>>>>>> ea8985a... Implemented 2 new system calls into XV6 named settickets and getpinfo.

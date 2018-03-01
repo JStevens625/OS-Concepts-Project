@@ -16,7 +16,14 @@ USER_PROGS := \
 	tester\
 	usertests\
 	wc\
+<<<<<<< HEAD
 	zombie
+=======
+	zombie\
+	howmanysys\
+	settickets\
+	getpinfo
+>>>>>>> ea8985a... Implemented 2 new system calls into XV6 named settickets and getpinfo.
 
 USER_PROGS := $(addprefix user/, $(USER_PROGS))
 

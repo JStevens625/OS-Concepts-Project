@@ -103,6 +103,18 @@ static int (*syscalls[])(void) = {
 [SYS_wait]    sys_wait,
 [SYS_write]   sys_write,
 [SYS_uptime]  sys_uptime,
+<<<<<<< HEAD
+=======
+
+//Custom System Count Code
+[SYS_howmanysys] sys_howmanysys,
+
+//Lottery Tickets code
+[SYS_settickets] sys_settickets,
+[SYS_getpinfo] sys_getpinfo,
+
+
+>>>>>>> ea8985a... Implemented 2 new system calls into XV6 named settickets and getpinfo.
 };
 
 // Called on a syscall trap. Checks that the syscall number (passed via eax)

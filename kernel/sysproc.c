@@ -76,6 +76,26 @@ sys_sleep(void)
   return 0;
 }
 
+<<<<<<< HEAD
+=======
+//Custom System Count Code
+int sys_howmanysys(void) {
+  return counter;
+//  cprintf("There has been %d many system calls\n", counter);
+}
+//Custom System Count Code end.
+
+//Set number of tickets
+int sys_settickets(void){
+
+}
+
+//Get process get process info
+int sys_getpinfo(void){
+  
+}
+
+>>>>>>> ea8985a... Implemented 2 new system calls into XV6 named settickets and getpinfo.
 // return how many clock tick interrupts have occurred
 // since boot.
 int
