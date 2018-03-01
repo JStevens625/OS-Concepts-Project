@@ -30,6 +30,7 @@ extern int counter;
 
 //Lottery Tickets
 int sys_settickets(void);
+extern int numberoftickets;
 int sys_getpinfo(void);
 
 #endif // _SYSFUNC_H_
