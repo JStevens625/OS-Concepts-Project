@@ -86,17 +86,12 @@ int sys_howmanysys(void) {
 
 //Set number of tickets
 int sys_settickets(void){
-  if (proc->numTickets >= 1) {
-    return 0;
-  }
-  else{
-    return -1;
-  }
+  return int settickets();
 }
 
 //Get process get process info
 int sys_getpinfo(void){
-  cprintf("Process    |    Chosen   |   Status   |   PID\n   %s%d      %s%d      %s%d      %s%d", proc->name, proc->numOfRuns, proc->state, proc->pid);
+  return int getpinfo();
 }
 
 // return how many clock tick interrupts have occurred
