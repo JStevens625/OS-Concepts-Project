@@ -97,7 +97,7 @@ int sys_settickets(void){
 
 //Get process get process info
 int sys_getpinfo(void){
-  printf("Process    |    Chosen   |   Status   |   PID\n" proc->name"    "proc->numOfRuns"    "proc->procstate"    "proc->pid);
+  printf("Process    |    Chosen   |   Status   |   PID\n", proc->name("    "),proc->numOfRuns("    "),proc->state("    "),proc->pid);
 }
 
 // return how many clock tick interrupts have occurred
