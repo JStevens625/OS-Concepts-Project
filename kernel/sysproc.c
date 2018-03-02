@@ -86,8 +86,7 @@ int sys_howmanysys(void) {
 
 //Set number of tickets
 int sys_settickets(void){
-  int numberoftickets;
-  if (numberoftickets >= 1) {
+  if (proc->numTickets >= 1) {
     return 0;
   }
   else{
