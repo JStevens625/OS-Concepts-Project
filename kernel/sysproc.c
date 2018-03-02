@@ -5,6 +5,7 @@
 #include "mmu.h"
 #include "proc.h"
 #include "sysfunc.h"
+//#include <stdio.h>
 
 int
 sys_fork(void)
@@ -85,7 +86,15 @@ int sys_howmanysys(void) {
 
 //Set number of tickets
 int sys_settickets(void){
-  
+  int numberoftickets;
+  printf("Please input number of tickets: ");
+  scanf("%d\n", &numberoftickets);
+  if (numberoftickets >= 1) {
+    return 0;
+  }
+  else{
+    return -1;
+  }
 }
 
 //Get process get process info
