@@ -248,9 +248,9 @@ wait(void)
 
 
 
-int randomNum(void){
+int randomNum(int pid){
 
-    uint16_t start_state = 0xACE1u;  /* Any nonzero start state will work. */
+    uint16_t start_state = pid;  /* Any nonzero start state will work. */
     uint16_t lfsr = start_state;
     uint16_t bit;                    /* Must be 16bit to allow bit<<15 later in the code */
     unsigned period = 0;
