@@ -262,7 +262,11 @@ int randomNum(int pid){
         lfsr =  (lfsr >> 1) | (bit << 15);
         ++period;
     } while (lfsr > MAX);
+<<<<<<< HEAD
     return 0;
+=======
+    return lfsr;
+>>>>>>> 2dd6e8f... Adjusted LFSR Bounds
 }
 // Per-CPU process scheduler.
 // Each CPU calls scheduler() after setting itself up.
