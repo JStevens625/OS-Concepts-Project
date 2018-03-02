@@ -317,7 +317,9 @@ scheduler(void)
           proc = p;
           switchuvm(p);
           p->state = RUNNING;
-          cprintf("Winner name: %s  PID: %d  Tickets: %d  Uptime: %d  Winner Num:%d  Counter: %d\n", p->name, p->pid, p->numTickets, sys_uptime(), winner, counter);
+          cprintf("Winner name: %s  PID: %d  Tickets: %d  Uptime: %d  Winner Num:%d\n", p->name, p->pid, p->numTickets, sys_uptime(), winner);
+          p->numTickets = 0;
+          counter = 0;
           swtch(&cpu->scheduler, proc->context);
           switchkvm();
           // Process is done running for now.
@@ -326,7 +328,7 @@ scheduler(void)
           break;
         }
         else{
-          cprintf("Loser name: %s  PID: %d  Tickets: %d  Uptime: %d  Winner Num:%d  Counter: %d\n", p->name, p->pid, p->numTickets, sys_uptime(), winner, counter);
+          cprintf("Loser name: %s  PID: %d  Tickets: %d  Uptime: %d  Winner Num:%d\n", p->name, p->pid, p->numTickets, sys_uptime(), winner);
         }
       }
       p++;
