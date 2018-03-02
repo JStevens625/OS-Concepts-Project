@@ -248,22 +248,53 @@ wait(void)
 
 
 
-int randomNum(int pid){
-
-    uint16_t start_state = pid;  /* Any nonzero start state will work. */
-    uint16_t lfsr = start_state;
-    uint16_t bit;                    /* Must be 16bit to allow bit<<15 later in the code */
-    unsigned period = 0;
-
-    do
-    {
-        /* taps: 16 14 13 11; feedback polynomial: x^16 + x^14 + x^13 + x^11 + 1 */
-        bit  = ((lfsr >> 0) ^ (lfsr >> 2) ^ (lfsr >> 3) ^ (lfsr >> 5) ) & 1;
-        lfsr =  (lfsr >> 1) | (bit << 15);
-        ++period;
-    } while (lfsr > MAX);
-    return lfsr;
+///////////////////////////////////////////////////////////////////////////////
+//
+// randomNum takes void arguments and gets its random seed from the current
+// uptime of the system
+//
+///////////////////////////////////////////////////////////////////////////////
+int randomNum(int num) {
+    static uint16_t start_state = 0;
+    static uint16_t lfsr = 0;
+    if (lfsr == start_state) {
+      start_state = 0;
+      lfsr = 0;
+    }
+    /* Any nonzero start state will work. */
+    start_state = (start_state == 0) ? start_state = (uint16_t) sys_uptime() : start_state;
+    lfsr = (lfsr == 0) ? lfsr = start_state : lfsr;
+    uint16_t bit;       /* Must be 16bit to allow bit<<15 later in the code */
+    /* taps: 16 14 13 11; feedback polynomial: x^16 + x^14 + x^13 + x^11 + 1 */
+    bit  = ((lfsr >> 0) ^ (lfsr >> 2) ^ (lfsr >> 3) ^ (lfsr >> 5) ) & 1;
+    lfsr =  (lfsr >> 1) | (bit << 15);
+    return lfsr % num + 1;
 }
+
+void lottery(void){
+  int tickets = MAX;
+  for(struct proc *p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+    int random = randomNum(MAX);
+    p->numTickets += random;
+    tickets -= random;
+  }
+}
+
+
+extern int settickets(int num, struct proc *p){
+  if (num >= 1) {
+    p->numTickets = num;
+    return 0;
+  }
+  else{
+    return -1;
+  }
+}
+
+extern int getpinfo(void){
+  cprintf("Process    |    Chosen    |    Status    |    PID    |    Tickets    \n    %s      %s     %s      %s    %s", proc->name, proc->numOfRuns, proc->state, proc->pid, proc->numTickets);
+}
+
 // Per-CPU process scheduler.
 // Each CPU calls scheduler() after setting itself up.
 // Scheduler never returns.  It loops, doing:
@@ -274,33 +305,40 @@ int randomNum(int pid){
 void
 scheduler(void)
 {
-  struct proc *p;
-
   for(;;){
+    struct proc *p = ptable.proc;
+    int winner = randomNum(MAX);
+    int counter = 0;
+    lottery();
     // Enable interrupts on this processor.
     sti();
-
     // Loop over process table looking for process to run.
     acquire(&ptable.lock);
-    for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
-      if(p->state != RUNNABLE)
-        continue;
-
-      // Switch to chosen process.  It is the process's job
-      // to release ptable.lock and then reacquire it
-      // before jumping back to us.
-      proc = p;
-      switchuvm(p);
-      p->state = RUNNING;
-      swtch(&cpu->scheduler, proc->context);
-      switchkvm();
-
-      // Process is done running for now.
-      // It should have changed its p->state before coming back.
-      proc = 0;
+    while (p < &ptable.proc[NPROC]) {
+      if (p->state == RUNNABLE) {
+        counter += p->numTickets;
+        if(counter > winner){
+          proc = p;
+          switchuvm(p);
+          p->state = RUNNING;
+          cprintf("Winner name: %s  PID: %d  Tickets: %d  Uptime: %d  Winner Num:%d  Counter: %d\n", p->name, p->pid, p->numTickets, sys_uptime(), winner, counter);
+          swtch(&cpu->scheduler, proc->context);
+          switchkvm();
+          // Process is done running for now.
+          // It should have changed its p->state before coming back.
+          proc = 0;
+          break;
+        }
+        else{
+          cprintf("Loser name: %s  PID: %d  Tickets: %d  Uptime: %d  Winner Num:%d  Counter: %d\n", p->name, p->pid, p->numTickets, sys_uptime(), winner, counter);
+        }
+      }
+      p++;
     }
+    // Switch to chosen process.  It is the process's job
+    // to release ptable.lock and then reacquire it
+    // before jumping back to us.
     release(&ptable.lock);
-
   }
 }
 
