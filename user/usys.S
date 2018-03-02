@@ -34,5 +34,4 @@ SYSCALL(uptime)
 SYSCALL(howmanysys)
 
 //Lottery Tickets
-SYSCALL(settickets)
 SYSCALL(getpinfo)

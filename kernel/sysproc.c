@@ -82,18 +82,10 @@ int sys_howmanysys(void) {
   return counter;
 //  cprintf("There has been %d many system calls\n", counter);
 }
-//Custom System Count Code end.
-
-//Set number of tickets
-int sys_settickets(void){
-  // return int settickets();
-  return 0;
-}
 
 //Get process get process info
-int sys_getpinfo(void){
-  //return int getpinfo();
-  return 0;
+void sys_getpinfo(void){
+  return procdump();
 }
 
 // return how many clock tick interrupts have occurred

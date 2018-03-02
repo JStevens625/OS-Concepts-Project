@@ -291,10 +291,6 @@ extern int settickets(int num, struct proc *p){
   }
 }
 
-extern int getpinfo(void){
-  cprintf("Process    |    Chosen    |    Status    |    PID    |    Tickets    \n    %s      %s     %s      %s    %s", proc->name, proc->numOfRuns, proc->state, proc->pid, proc->numTickets);
-}
-
 // Per-CPU process scheduler.
 // Each CPU calls scheduler() after setting itself up.
 // Scheduler never returns.  It loops, doing:
@@ -490,12 +486,12 @@ procdump(void)
       state = states[p->state];
     else
       state = "???";
-    cprintf("%d %s %s", p->pid, state, p->name);
-    if(p->state == SLEEPING){
-      getcallerpcs((uint*)p->context->ebp+2, pc);
-      for(i=0; i<10 && pc[i] != 0; i++)
-        cprintf(" %p", pc[i]);
-    }
+    cprintf("%d %s %s %d", p->pid, state, p->name, p->numTickets);
+    // if(p->state == SLEEPING){
+    //   getcallerpcs((uint*)p->context->ebp+2, pc);
+    //   for(i=0; i<10 && pc[i] != 0; i++)
+    //     cprintf(" %p", pc[i]);
+    // }
     cprintf("\n");
   }
 }

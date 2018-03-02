@@ -31,7 +31,7 @@ int howmanysys(void);
 
 //Lottery Tickets
 int settickets(int num);
-int getpinfo(struct pstat *);
+void getpinfo(void);
 
 
 // user library functions (ulib.c)

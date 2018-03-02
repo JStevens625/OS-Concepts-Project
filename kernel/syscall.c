@@ -108,7 +108,6 @@ static int (*syscalls[])(void) = {
 [SYS_howmanysys] sys_howmanysys,
 
 //Lottery Tickets code
-[SYS_settickets] sys_settickets,
 [SYS_getpinfo] sys_getpinfo,
 
 

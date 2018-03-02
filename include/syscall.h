@@ -28,7 +28,6 @@
 #define SYS_howmanysys 22
 
 //Lottery Number
-#define SYS_settickets 23
-#define SYS_getpinfo 24
+#define SYS_getpinfo 23
 
 #endif // _SYSCALL_H_
