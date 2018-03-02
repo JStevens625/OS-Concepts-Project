@@ -262,26 +262,8 @@ int randomNum(int pid){
         lfsr =  (lfsr >> 1) | (bit << 15);
         ++period;
     } while (lfsr > MAX);
-<<<<<<< HEAD
-    return 0;
-=======
     return lfsr;
->>>>>>> 2dd6e8f... Adjusted LFSR Bounds
 }
-
-extern int settickets(void){
-  if (proc->numTickets >= 1) {
-    return 0;
-  }
-  else{
-    return -1;
-  }
-}
-
-extern int getpinfo(void){
-  cprintf("Process    |    Chosen   |   Status   |   PID\n   %s%d      %s%d      %s%d      %s%d", proc->name, proc->numOfRuns, proc->state, proc->pid);
-}
-
 // Per-CPU process scheduler.
 // Each CPU calls scheduler() after setting itself up.
 // Scheduler never returns.  It loops, doing:

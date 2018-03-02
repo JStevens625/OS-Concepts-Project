@@ -16,6 +16,6 @@
 #define PHYSTOP  0x1000000 // use phys mem up to here as free pool
 #define MAXARG       32  // max exec arguments
 
-#define MAX        300 //Number of Lottery Tickets.
+#define MAX        400 //Number of Lottery Tickets.
 
 #endif // _PARAM_H_

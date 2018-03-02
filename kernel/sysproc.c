@@ -86,12 +86,14 @@ int sys_howmanysys(void) {
 
 //Set number of tickets
 int sys_settickets(void){
-  return int settickets();
+  // return int settickets();
+  return 0;
 }
 
 //Get process get process info
 int sys_getpinfo(void){
-  return int getpinfo();
+  //return int getpinfo();
+  return 0;
 }
 
 // return how many clock tick interrupts have occurred
