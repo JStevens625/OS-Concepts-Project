@@ -4,6 +4,6 @@
 int main(int argc, char *argv[])
 {
   int *p = 0; //Creates Integer Pointer to NULL
-  printf(1, "Dereference P:[%x] \n", *p);
+  printf(1, "Dereference p:[%x]\n", *p); //Dereference
   exit();
 }
