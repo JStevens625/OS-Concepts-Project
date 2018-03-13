@@ -26,24 +26,35 @@ exec(char *path, char **argv)
   if(readi(ip, (char*)&elf, 0, sizeof(elf)) < sizeof(elf))
     goto bad;
   if(elf.magic != ELF_MAGIC)
-    goto bad;
-
+      goto bad;
   if((pgdir = setupkvm()) == 0)
     goto bad;
 
   // Load program into memory.
-  sz = 0;
+  sz = PGSIZE;
   for(i=0, off=elf.phoff; i<elf.phnum; i++, off+=sizeof(ph)){
-    if(readi(ip, (char*)&ph, off, sizeof(ph)) != sizeof(ph))
+    cprintf("None of the below\n");
+    if(readi(ip, (char*)&ph, off, sizeof(ph)) != sizeof(ph)){
+      cprintf("First\n");
       goto bad;
-    if(ph.type != ELF_PROG_LOAD)
+    }
+    if(ph.type != ELF_PROG_LOAD){
+      cprintf("Second\n");
       continue;
-    if(ph.memsz < ph.filesz)
+    }
+    if(ph.memsz < ph.filesz){
+      cprintf("Third\n");
       goto bad;
-    if((sz = allocuvm(pgdir, sz, ph.va + ph.memsz)) == 0)
+    }
+    cprintf("Proc PID: [%x], Size: %d, %d\n", proc->pid, sz, ph.va + ph.memsz);
+    if((sz = allocuvm(pgdir, sz, ph.va + ph.memsz)) == 0){
+      cprintf("Fourth\n");
       goto bad;
-    if(loaduvm(pgdir, (char*)ph.va, ip, ph.offset, ph.filesz) < 0)
+    }
+    if(loaduvm(pgdir, (char*)ph.va, ip, ph.offset, ph.filesz) < 0){
+      cprintf("Fifth\n");
       goto bad;
+    }
   }
   iunlockput(ip);
   ip = 0;
