@@ -33,26 +33,20 @@ exec(char *path, char **argv)
   // Load program into memory.
   sz = PGSIZE;
   for(i=0, off=elf.phoff; i<elf.phnum; i++, off+=sizeof(ph)){
-    cprintf("None of the below\n");
     if(readi(ip, (char*)&ph, off, sizeof(ph)) != sizeof(ph)){
-      cprintf("First\n");
       goto bad;
     }
     if(ph.type != ELF_PROG_LOAD){
-      cprintf("Second\n");
       continue;
     }
     if(ph.memsz < ph.filesz){
-      cprintf("Third\n");
       goto bad;
     }
     cprintf("Proc PID: [%x], Size: %d, %d\n", proc->pid, sz, ph.va + ph.memsz);
     if((sz = allocuvm(pgdir, sz, ph.va + ph.memsz)) == 0){
-      cprintf("Fourth\n");
       goto bad;
     }
     if(loaduvm(pgdir, (char*)ph.va, ip, ph.offset, ph.filesz) < 0){
-      cprintf("Fifth\n");
       goto bad;
     }
   }
