@@ -29,3 +29,8 @@ SYSCALL(getpid)
 SYSCALL(sbrk)
 SYSCALL(sleep)
 SYSCALL(uptime)
+
+//Syscalls needed for users to call
+SYSCALL(shmem_access)
+SYSCALL(shmem_count)
+SYSCALL(shmem_retrieve)

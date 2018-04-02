@@ -24,4 +24,9 @@ int sys_wait(void);
 int sys_write(void);
 int sys_uptime(void);
 
+//Syscalls needed for users to call
+int sys_shmem_access(void);
+int sys_shmem_count(void);
+int sys_shmem_retrieve(void);
+
 #endif // _SYSFUNC_H_

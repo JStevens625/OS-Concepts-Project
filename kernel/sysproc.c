@@ -60,7 +60,7 @@ sys_sleep(void)
 {
   int n;
   uint ticks0;
-  
+
   if(argint(0, &n) < 0)
     return -1;
   acquire(&tickslock);
@@ -82,9 +82,32 @@ int
 sys_uptime(void)
 {
   uint xticks;
-  
+
   acquire(&tickslock);
   xticks = ticks;
   release(&tickslock);
   return xticks;
+}
+
+//Syscalls needed for users to call
+#define SHARED_PAGES 4
+pte_e *shared_page[SHARED_PAGES];
+int shared_counter[SHARED_PAGES];
+
+void
+*shmem_access(int page_number)
+{
+
+}
+
+int
+shmem_count(int page_number)
+{
+
+}
+
+char
+*shmem_retrieve(void)
+{
+
 }

@@ -24,4 +24,9 @@
 #define SYS_sleep  20
 #define SYS_uptime 21
 
+//Syscalls needed for users to call
+#define SYS_shmem_access 22
+#define SYS_shmem_count 23
+#define SYS_shmem_retrieve 24
+
 #endif // _SYSCALL_H_

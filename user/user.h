@@ -26,6 +26,11 @@ char* sbrk(int);
 int sleep(int);
 int uptime(void);
 
+//Syscalls needed for users to call
+void *shmem_access(int);
+int shmem_count(int);
+char *shmem_retrieve(void);
+
 // user library functions (ulib.c)
 int stat(char*, struct stat*);
 char* strcpy(char*, char*);
@@ -41,4 +46,3 @@ void free(void*);
 int atoi(const char*);
 
 #endif // _USER_H_
-
