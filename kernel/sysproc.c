@@ -95,19 +95,19 @@ pte_e *shared_page[SHARED_PAGES];
 int shared_counter[SHARED_PAGES];
 
 void
-*shmem_access(int page_number)
+sys_shmem_access(int page_number)
 {
 
 }
 
 int
-shmem_count(int page_number)
+sys_shmem_count(int page_number)
 {
 
 }
 
 char
-*shmem_retrieve(void)
+sys_shmem_retrieve(void)
 {
 
 }
