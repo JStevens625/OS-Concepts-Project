@@ -100,7 +100,7 @@ sys_shmem_access(void)
   int pgn;
   char* virtaddr;
   argint(0, &pgn);
-  argstr(0, &virtaddr);
+  argstr(1, &virtaddr);
   for (int i = 0; i < 4; i++) {
     shared_page[i] = setupkvm();
     allocuvm(shared_page[i], 0, PGSIZE);
