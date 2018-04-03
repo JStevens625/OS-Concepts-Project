@@ -77,7 +77,7 @@ struct proc {
 
   uint token;
   char* virtaddr;
-  pte_e* shpg;
+  void* shpg;
 };
 
 // Process memory is laid out contiguously, low addresses first:

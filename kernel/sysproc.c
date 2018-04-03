@@ -91,23 +91,36 @@ sys_uptime(void)
 
 //Syscalls needed for users to call
 #define SHARED_PAGES 4
-pte_e *shared_page[SHARED_PAGES];
+void *shared_page[SHARED_PAGES];
 int shared_counter[SHARED_PAGES];
 
-void
-sys_shmem_access(int page_number)
+int
+sys_shmem_access(void)
 {
-
+  int pgn;
+  char* virtaddr;
+  argint(0, &pgn);
+  argstr(0, &virtaddr);
+  for (int i = 0; i < 4; i++) {
+    shared_page[i] = setupkvm();
+    allocuvm(shared_page[i], 0, PGSIZE);
+    shared_counter[i] = 0;
+  }
+  shared_counter[pgn]++;
+  proc->token = pgn;
+  proc->shpg = shared_page[pgn];
+  proc->virtaddr = virtaddr;
+  return 0;
 }
 
 int
-sys_shmem_count(int page_number)
+sys_shmem_count(void)
 {
-
+  return shared_counter[proc->token];
 }
 
-char
+int
 sys_shmem_retrieve(void)
 {
-
+  return (int) uva2ka(proc->shpg, proc->virtaddr);
 }
