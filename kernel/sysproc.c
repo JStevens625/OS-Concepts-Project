@@ -80,7 +80,8 @@ sys_sleep(void)
 
 //Custom System Count Code
 int sys_howmanysys(void) {
-  cprintf("There has been %d many system calls\n", counter);
+  return counter;
+//  cprintf("There has been %d many system calls\n", counter);
 }
 //Custom System Count Code end.
 
