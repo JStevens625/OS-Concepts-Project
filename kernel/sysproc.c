@@ -60,7 +60,7 @@ sys_sleep(void)
 {
   int n;
   uint ticks0;
-  
+
   if(argint(0, &n) < 0)
     return -1;
   acquire(&tickslock);
@@ -76,8 +76,6 @@ sys_sleep(void)
   return 0;
 }
 
-<<<<<<< HEAD
-=======
 //Custom System Count Code
 int sys_howmanysys(void) {
   return counter;
@@ -92,17 +90,16 @@ int sys_settickets(void){
 
 //Get process get process info
 int sys_getpinfo(void){
-  
+
 }
 
->>>>>>> ea8985a... Implemented 2 new system calls into XV6 named settickets and getpinfo.
 // return how many clock tick interrupts have occurred
 // since boot.
 int
 sys_uptime(void)
 {
   uint xticks;
-  
+
   acquire(&tickslock);
   xticks = ticks;
   release(&tickslock);

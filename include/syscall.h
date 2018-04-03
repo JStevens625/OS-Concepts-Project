@@ -24,8 +24,6 @@
 #define SYS_sleep  20
 #define SYS_uptime 21
 
-<<<<<<< HEAD
-=======
 //Custom System Count Code
 #define SYS_howmanysys 22
 
@@ -33,5 +31,4 @@
 #define SYS_settickets 23
 #define SYS_getpinfo 24
 
->>>>>>> ea8985a... Implemented 2 new system calls into XV6 named settickets and getpinfo.
 #endif // _SYSCALL_H_
