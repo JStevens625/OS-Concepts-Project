@@ -98,19 +98,20 @@ int
 sys_shmem_access(void)
 {
   int pgn;
-  char* virtaddr;
+  char *virtaddr;
   argint(0, &pgn);
   argstr(1, &virtaddr);
+  //cprintf("Made it here\n"); Did not make it here!
   for (int i = 0; i < 4; i++) {
     shared_page[i] = setupkvm();
     allocuvm(shared_page[i], 0, PGSIZE);
-    shared_counter[i] = 0;
+    shared_counter[i] = 1;
   }
   shared_counter[pgn]++;
   proc->token = pgn;
   proc->shpg = shared_page[pgn];
   proc->virtaddr = virtaddr;
-  return 0;
+  return 1;
 }
 
 int

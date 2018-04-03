@@ -20,7 +20,8 @@ USER_PROGS := \
 	null\
 	ShmemA\
 	ShmemB\
-	ShmemTest
+	ShmemTest1\
+	ShmemTest2
 
 USER_PROGS := $(addprefix user/, $(USER_PROGS))
 

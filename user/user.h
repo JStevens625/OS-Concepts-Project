@@ -27,8 +27,8 @@ int sleep(int);
 int uptime(void);
 
 //Syscalls needed for users to call
-void *shmem_access(int);
-int shmem_count(int*);
+int *shmem_access(int, char**);
+int shmem_count(void);
 char *shmem_retrieve(void);
 
 // user library functions (ulib.c)

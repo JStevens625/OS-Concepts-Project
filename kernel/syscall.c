@@ -107,7 +107,7 @@ static int (*syscalls[])(void) = {
 //Syscalls needed for users to call
 [SYS_shmem_access] sys_shmem_access,
 [SYS_shmem_count]  sys_shmem_count,
-[SYS_shmem_retrieve] sys_shmem_retrieve,
+[SYS_shmem_retrieve] sys_shmem_retrieve
 };
 
 // Called on a syscall trap. Checks that the syscall number (passed via eax)
