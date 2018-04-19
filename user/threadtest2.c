@@ -33,7 +33,7 @@ int thread_join(){
 }
 
 void testforthreads(void* arg){
-  printf(1,"Hi\n");
+  
   exit();
 }
 

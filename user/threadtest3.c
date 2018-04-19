@@ -33,7 +33,9 @@ int thread_join(){
 }
 
 void testforthreads(void* arg){
-  printf(1,"Hi\n");
+  for (size_t i = 0; i < 100000; i++) {
+    printf(1, "Child Running\n");
+  }
   exit();
 }
 
@@ -41,6 +43,9 @@ int main(int argc, char *argv[]){
   void* arg[] = {
     0
   };
+  for (size_t i = 0; i < 100000; i++) {
+    printf(1, "Parent Running\n");
+  }
   thread_create(testforthreads,arg);
   thread_join();
  exit();
