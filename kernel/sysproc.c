@@ -60,7 +60,7 @@ sys_sleep(void)
 {
   int n;
   uint ticks0;
-  
+
   if(argint(0, &n) < 0)
     return -1;
   acquire(&tickslock);
@@ -82,7 +82,7 @@ int
 sys_uptime(void)
 {
   uint xticks;
-  
+
   acquire(&tickslock);
   xticks = ticks;
   release(&tickslock);
@@ -109,7 +109,36 @@ sys_clone(void(*fcn)(void*),void *arg, void *stack)
   return -1;
  }
  //Pulled from fork()
+ int i, pid;
+ struct proc *np;
 
+ // Allocate process.
+ if((np = allocproc()) == 0)
+   return -1;
+
+ // Copy process state from p.
+ if((np->pgdir = copyuvm(proc->pgdir, proc->sz)) == 0){
+   kfree(np->kstack);
+   np->kstack = 0;
+   np->state = UNUSED;
+   return -1;
+ }
+ np->sz = proc->sz;
+ np->parent = proc;
+ *np->tf = *proc->tf;
+
+ // Clear %eax so that fork returns 0 in the child.
+ np->tf->eax = 0;
+
+ for(i = 0; i < NOFILE; i++)
+   if(proc->ofile[i])
+     np->ofile[i] = filedup(proc->ofile[i]);
+ np->cwd = idup(proc->cwd);
+
+ pid = np->pid;
+ np->state = RUNNABLE;
+ safestrcpy(np->name, proc->name, sizeof(proc->name));
+ return pid;
 
  return 0;
 }
@@ -117,12 +146,35 @@ sys_clone(void(*fcn)(void*),void *arg, void *stack)
 int
 sys_join(void **stack)
 {
- void** stack; 
+ void** stack;
  if(argptr(0, (char**)&stack, sizeof(void*)) < 0){
   return -1;
  }
  //Pulled from wait()
+ struct proc *p;
+ int havekids, pid;
 
-
+ acquire(&ptable.lock);
+ for(;;){
+   // Scan through table looking for zombie children.
+   havekids = 0;
+   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+     if(p->parent != proc)
+       continue;
+     havekids = 1;
+     if(p->state == ZOMBIE){
+       // Found one.
+       pid = p->pid;
+       kfree(p->kstack);
+       p->kstack = 0;
+       freevm(p->pgdir);
+       p->state = UNUSED;
+       p->pid = 0;
+       p->parent = 0;
+       p->name[0] = 0;
+       p->killed = 0;
+       release(&ptable.lock);
+       return pid;
+     }
  return 0;
 }
