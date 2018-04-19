@@ -22,11 +22,26 @@ void lock_release(lock_t* mutex){
 }
 
 int thread_create(void(*start_routine)(void*), void *arg){
-  clone(start_routine,arg,malloc(4096));
+  int i = clone(start_routine,arg,malloc(4096));
+  //printf(1,"Here: %d\n", i);
 }
 
 int thread_join(){
   void *stack;
   join(&stack);
   return stack;
+}
+
+void testforthreads(void* arg){
+  printf(1,"Hi\n");
+  exit();
+}
+
+int main(int argc, char *argv[]){
+  void* arg[] = {
+    0
+  };
+  thread_create(testforthreads,arg);
+  thread_join();
+ exit();
 }

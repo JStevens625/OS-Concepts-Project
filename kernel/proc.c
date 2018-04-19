@@ -458,8 +458,9 @@ int clone(void(*fcn)(void*), void *arg, void *stack){
   np->parent = proc;
   *np->tf = *proc->tf;
   np->pgdir = proc->pgdir;
-
-  //Set the next instruction of the code to the program set
+  np->pid = proc->pid;
+  //cprintf("I'm the pid: %d", np->pid);
+    //Set the next instruction of the code to the program set
   np->tf->eip = (unsigned int) fcn;
 
   //Change base pointer and stack pointer for the threads stack
@@ -481,7 +482,7 @@ int clone(void(*fcn)(void*), void *arg, void *stack){
   pid = np->pid;
   np->state = RUNNABLE;
   safestrcpy(np->name, proc->name, sizeof(proc->name));
-  return np->pid;
+  return pid;
 }
 
 int join(void **stack){
@@ -498,6 +499,7 @@ int join(void **stack){
       if(p->pgdir != proc->pgdir)
         continue;
       hasthreads = 1;
+      //cprintf("Here\n");
       if(p->state == ZOMBIE){
         // Found one.
         pid = p->pid;
@@ -505,18 +507,22 @@ int join(void **stack){
         //esp is an integer so we convert it to stack pointer as void
         *stack = (void*)p->tf->esp;
 
+
         kfree(p->kstack);
         p->kstack = 0;
-        freevm(p->pgdir);
         p->state = UNUSED;
         p->pid = 0;
         p->parent = 0;
         p->name[0] = 0;
         p->killed = 0;
         release(&ptable.lock);
-        return pid;
+        return p->pid;
       }
-  return 0;
+      if (hasthreads == 0 || proc->killed) {
+        release(&ptable.lock);
+        return -1;
+      }
      }
+     sleep(proc, &ptable.lock);
    }
 }

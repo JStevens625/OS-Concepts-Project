@@ -108,6 +108,7 @@ sys_clone(void)
  if(argptr(2,(char**)&stack, 4096) < 0){
   return -1;
  }
+ return clone(fcn, arg, stack);
 }
 
 int
@@ -117,4 +118,5 @@ sys_join(void)
  if(argptr(0, (char**)&stack, sizeof(void*)) < 0){
   return -1;
  }
+ return join(stack);
 }
