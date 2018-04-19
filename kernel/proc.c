@@ -503,7 +503,7 @@ int join(void **stack){
         pid = p->pid;
         //Make stack pointer in join equivalent to stack pointer in clone
         //esp is an integer so we convert it to stack pointer as void
-        *stack = (void*)np->tf->esp;
+        *stack = (void*)p->tf->esp;
 
         kfree(p->kstack);
         p->kstack = 0;

@@ -21,7 +21,7 @@ void lock_release(lock_t* mutex){
   mutex->flag = 0;
 }
 
-int thread_create((*start_routine)(void*), void *arg){
+int thread_create(void(*start_routine)(void*), void *arg){
   clone(start_routine,arg,malloc(4096));
 }
 
