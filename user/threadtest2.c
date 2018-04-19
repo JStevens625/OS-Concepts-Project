@@ -6,6 +6,8 @@ typedef struct lock_t{
  int flag;
 } lock_t;
 
+lock_t lock;
+
 void lock_init(lock_t* mutex){
   mutex->flag = 0;
 }
@@ -33,15 +35,27 @@ int thread_join(){
 }
 
 void testforthreads(void* arg){
-  
+  for (int i = 0; i < 100; i++) {
+    sleep(1);
+    lock_acquire(&lock);
+    printf(1, "Child Running\n");
+    lock_release(&lock);
+  }
   exit();
 }
 
 int main(int argc, char *argv[]){
+  lock_init(&lock);
   void* arg[] = {
     0
   };
   thread_create(testforthreads,arg);
+  for (int i = 0; i < 100; i++) {
+    sleep(1);
+    lock_acquire(&lock);
+    printf(1, "Parent Running\n");
+    lock_release(&lock);
+  }
   thread_join();
  exit();
 }
