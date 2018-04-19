@@ -91,7 +91,7 @@ sys_uptime(void)
 
 //System Calls for Threading
 int
-sys_clone(void(*fcn)(void*),void *arg, void *stack)
+sys_clone(void)
 {
  //Define the function parameters
  void (*fcn)(void*);
@@ -108,7 +108,9 @@ sys_clone(void(*fcn)(void*),void *arg, void *stack)
  if(argptr(2,(char**)&stack, 4096) < 0){
   return -1;
  }
+
  //Pulled from fork()
+
  int i, pid;
  struct proc *np;
 
@@ -116,16 +118,22 @@ sys_clone(void(*fcn)(void*),void *arg, void *stack)
  if((np = allocproc()) == 0)
    return -1;
 
- // Copy process state from p.
- if((np->pgdir = copyuvm(proc->pgdir, proc->sz)) == 0){
-   kfree(np->kstack);
-   np->kstack = 0;
-   np->state = UNUSED;
-   return -1;
- }
+ //Copies size, parent, trapframe, and page directory from parent
  np->sz = proc->sz;
  np->parent = proc;
  *np->tf = *proc->tf;
+ np->pgdir = proc->pgdir;
+
+ //Set the next instruction of the code to the program set
+ np->tf->eip = (unsigned int) fcn;
+
+ //Change base pointer and stack pointer for the threads stack
+ np->tf->esp = (unsigned int) stack;
+ np->tf->ebp = (unsigned int) stack + 4096;
+
+ //Setup return address to given one by professor
+ *(unsigned int*)(np->tf->esp) = 0xFFFFFFFF;
+ *(unsigned int*)(np->tf->esp + 4) = (unsigned int)(arg);
 
  // Clear %eax so that fork returns 0 in the child.
  np->tf->eax = 0;
@@ -138,33 +146,36 @@ sys_clone(void(*fcn)(void*),void *arg, void *stack)
  pid = np->pid;
  np->state = RUNNABLE;
  safestrcpy(np->name, proc->name, sizeof(proc->name));
- return pid;
-
- return 0;
+ return np->pid;
 }
 
 int
-sys_join(void **stack)
+sys_join(void)
 {
  void** stack;
  if(argptr(0, (char**)&stack, sizeof(void*)) < 0){
   return -1;
  }
  //Pulled from wait()
+
  struct proc *p;
- int havekids, pid;
+ int hasthreads, pid;
 
  acquire(&ptable.lock);
  for(;;){
    // Scan through table looking for zombie children.
-   havekids = 0;
+   hasthreads = 0;
    for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
-     if(p->parent != proc)
+     if(p->pgdir != proc->pgdir)
        continue;
-     havekids = 1;
+     hasthreads = 1;
      if(p->state == ZOMBIE){
        // Found one.
        pid = p->pid;
+       //Make stack pointer in join equivalent to stack pointer in clone
+       //esp is an integer so we convert it to stack pointer as void
+       *stack = (void*)np->tf->esp;
+
        kfree(p->kstack);
        p->kstack = 0;
        freevm(p->pgdir);
@@ -177,4 +188,6 @@ sys_join(void **stack)
        return pid;
      }
  return 0;
+    }
+  }
 }
