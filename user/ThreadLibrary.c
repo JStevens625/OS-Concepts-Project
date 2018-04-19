@@ -2,19 +2,25 @@
 #include "stat.h"
 #include "user.h"
 
-typedef struct{
- unsigned int flag;
- lock_t;
+typedef struct lock_t{
+ int flag;
+} lock_t;
+
+void lock_init(lock_t* mutex){
+  mutex->flag = 0;
 }
 
-void lock_init(lock_t flag){
-  flag = 0;
+void lock_acquire(lock_t* mutex){
+  while (mutex->flag == 1) {
+    ;
+  }
+  mutex->flag = 1;
 }
 
-void lock_acquire(lock_t flag){
-  
+void lock_release(lock_t* mutex){
+  mutex->flag = 0;
 }
 
-void lock_release(lock_t flag){
-  
+int thread_create((*start_routine)(void*), void *arg){
+  clone();
 }
