@@ -22,5 +22,11 @@ void lock_release(lock_t* mutex){
 }
 
 int thread_create((*start_routine)(void*), void *arg){
-  clone();
+  clone(start_routine,arg,malloc(4096));
+}
+
+int thread_join(){
+  void *stack;
+  join(&stack);
+  return stack;
 }
