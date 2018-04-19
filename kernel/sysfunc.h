@@ -24,4 +24,8 @@ int sys_wait(void);
 int sys_write(void);
 int sys_uptime(void);
 
+//System Calls for Threading
+int sys_clone(void);
+int sys_join(void);
+
 #endif // _SYSFUNC_H_

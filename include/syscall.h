@@ -24,4 +24,8 @@
 #define SYS_sleep  20
 #define SYS_uptime 21
 
+//Defined new system calls for Threading
+#define SYS_clone 22
+#define SYS_join 23
+
 #endif // _SYSCALL_H_

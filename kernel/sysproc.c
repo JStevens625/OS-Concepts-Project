@@ -88,3 +88,41 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+
+//System Calls for Threading
+int
+sys_clone(void(*fcn)(void*),void *arg, void *stack)
+{
+ //Define the function parameters
+ void (*fcn)(void*);
+ void *arg;
+ void *stack;
+
+ //Check if invalid
+ if(argptr(0,(char**)&fcn, sizeof(void*)) < 0 ){
+  return -1;
+ }
+ if(argptr(1,(char**)&arg, sizeof(void*)) < 0){
+  return -1;
+ }
+ if(argptr(2,(char**)&stack, 4096) < 0){
+  return -1;
+ }
+ //Pulled from fork()
+
+
+ return 0;
+}
+
+int
+sys_join(void **stack)
+{
+ void** stack; 
+ if(argptr(0, (char**)&stack, sizeof(void*)) < 0){
+  return -1;
+ }
+ //Pulled from wait()
+
+
+ return 0;
+}

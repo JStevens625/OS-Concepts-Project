@@ -29,3 +29,7 @@ SYSCALL(getpid)
 SYSCALL(sbrk)
 SYSCALL(sleep)
 SYSCALL(uptime)
+
+//System calls for Threading
+SYSCALL(clone)
+SYSCALL(join)

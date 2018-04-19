@@ -26,6 +26,10 @@ char* sbrk(int);
 int sleep(int);
 int uptime(void);
 
+//System calls Threading
+int clone(void(*fcn)(void*), void *arg, void *stack);
+int join(void **stack);
+
 // user library functions (ulib.c)
 int stat(char*, struct stat*);
 char* strcpy(char*, char*);
